@@ -1,0 +1,1942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="theme-color" content="#030503">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Happy Birthday Sakshi!">
+  <meta name="description" content="A special movie-style hacker simulation birthday experience for Sakshi. 🎂🎉">
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Open Graph / Social Preview -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="🔒 TOP SECRET — Happy Birthday, Sakshi!">
+  <meta property="og:description" content="A cinematic hacker simulation. Only one target. Only one mission. 🎂">
+  <meta property="og:image" content="og-preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Happy Birthday Sakshi - Simulation Engine v5.0">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="🔒 TOP SECRET — Happy Birthday, Sakshi!">
+  <meta name="twitter:description" content="A cinematic hacker simulation birthday surprise. 🎂">
+  <meta name="twitter:image" content="og-preview.png">
+
+  <title>SIMULATION ENGINE v5.0 | Movie Cyber Override</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
+
+  <!-- Google Fonts with display=swap for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Dancing+Script:wght@700&family=Fira+Code:wght@400;600;700&family=Outfit:wght@400;600;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       DESIGN SYSTEM & RESET
+       ========================================================================== */
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    :root {
+      --neon-green: #00ff66;
+      --neon-green-glow: rgba(0, 255, 102, 0.5);
+      --alert-red: #ff3344;
+      --alert-red-glow: rgba(255, 51, 68, 0.6);
+      --alert-yellow: #ffcc00;
+      --cyber-blue: #00e5ff;
+      --bg-dark: #030503;
+
+      --party-bg-1: #090314;
+      --party-bg-2: #240538;
+      --party-bg-3: #581263;
+      --party-accent: #ff4081;
+      --party-gold: #ffd700;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+      font-family: 'Share Tech Mono', 'Fira Code', monospace;
+      background-color: var(--bg-dark);
+      color: var(--neon-green);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ==========================================================================
+       LOADING SCREEN
+       ========================================================================== */
+    #loading-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: var(--bg-dark);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      transition: opacity 0.6s ease;
+    }
+
+    #loading-screen.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .loading-logo {
+      font-size: 3rem;
+      animation: loadingPulse 1s ease-in-out infinite alternate;
+    }
+
+    @keyframes loadingPulse {
+      0%   { transform: scale(1);    filter: drop-shadow(0 0 8px var(--neon-green)); }
+      100% { transform: scale(1.12); filter: drop-shadow(0 0 20px var(--neon-green)); }
+    }
+
+    .loading-text {
+      font-size: 0.95rem;
+      color: var(--neon-green);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    .loading-bar-track {
+      width: 220px;
+      height: 4px;
+      background: rgba(0, 255, 102, 0.15);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .loading-bar-fill {
+      height: 100%;
+      background: var(--neon-green);
+      border-radius: 4px;
+      box-shadow: 0 0 10px var(--neon-green);
+      animation: loadingBarAnim 1.5s ease-in-out infinite;
+    }
+
+    @keyframes loadingBarAnim {
+      0%   { width: 0%; margin-left: 0; }
+      50%  { width: 70%; }
+      100% { width: 0%; margin-left: 100%; }
+    }
+
+    /* Top Sound & Control Fixed Bar */
+    .top-controls {
+      position: fixed;
+      top: 15px;
+      right: 20px;
+      z-index: 9990;
+      display: flex;
+      gap: 12px;
+    }
+
+    .cyber-btn {
+      background: rgba(0, 20, 10, 0.85);
+      border: 1px solid var(--neon-green);
+      color: var(--neon-green);
+      padding: 8px 16px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 0 15px var(--neon-green-glow);
+      transition: all 0.25s ease;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .cyber-btn:hover {
+      background: var(--neon-green);
+      color: #000;
+      box-shadow: 0 0 25px var(--neon-green);
+      transform: translateY(-2px);
+    }
+
+    .party-active .cyber-btn {
+      border-color: rgba(255, 255, 255, 0.3);
+      color: #fff;
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 5px 20px rgba(255, 64, 129, 0.4);
+    }
+
+    .party-active .cyber-btn:hover {
+      background: #ff4081;
+      color: #fff;
+    }
+
+    /* CRT Scanline Overlay */
+    .crt-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: 2;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%),
+                  linear-gradient(90deg, rgba(255,0,0,0.03), rgba(0,255,0,0.01), rgba(0,0,255,0.03));
+      background-size: 100% 3px, 6px 100%;
+      pointer-events: none;
+      opacity: 0.8;
+      transition: opacity 1s ease;
+      will-change: opacity;
+    }
+
+    /* Matrix Rain Canvas */
+    #matrix-canvas {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: 1;
+      opacity: 0.7;
+      transition: opacity 1s ease;
+      will-change: opacity;
+    }
+
+    /* Common Phase Screen Shell */
+    .phase-screen {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s ease;
+    }
+
+    .phase-screen.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* ==========================================================================
+       PHASE 1: BOOT SEQUENCE
+       ========================================================================== */
+    #boot-screen {
+      background: rgba(3, 5, 3, 0.95);
+      z-index: 50;
+    }
+
+    .boot-box {
+      max-width: 600px;
+      width: 90%;
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+
+    .boot-line {
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .boot-progress-track {
+      width: 100%;
+      height: 16px;
+      background: #0d1a0d;
+      border: 1px solid var(--neon-green);
+      margin-top: 15px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 4px;
+    }
+
+    .boot-progress-fill {
+      width: 0%;
+      height: 100%;
+      background: var(--neon-green);
+      box-shadow: 0 0 15px var(--neon-green);
+      transition: width 0.1s linear;
+      will-change: width;
+    }
+
+    .boot-flash-banner {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--neon-green);
+      text-shadow: 0 0 25px var(--neon-green);
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      margin-top: 25px;
+      text-align: center;
+      opacity: 0;
+      animation: pulseGlowGreen 0.4s infinite alternate;
+    }
+
+    @keyframes pulseGlowGreen {
+      0%   { text-shadow: 0 0 15px var(--neon-green); }
+      100% { text-shadow: 0 0 35px var(--neon-green), 0 0 60px var(--neon-green); }
+    }
+
+    /* ==========================================================================
+       PHASE 2 - 5: MAIN TERMINAL SUITE
+       ========================================================================== */
+    .apple-terminal {
+      position: relative;
+      z-index: 15;
+      width: 92%;
+      max-width: 900px;
+      background: rgba(5, 12, 6, 0.92);
+      border: 1px solid rgba(0, 255, 102, 0.4);
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 255, 102, 0.15), inset 0 0 20px rgba(0, 255, 102, 0.05);
+      padding: 0;
+      overflow: hidden;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .terminal-top-bar {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 12px 20px;
+      border-bottom: 1px solid rgba(0, 255, 102, 0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .window-controls {
+      display: flex;
+      gap: 8px;
+    }
+    .w-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+    .w-red    { background: #ff5f56; }
+    .w-yellow { background: #ffbd2e; }
+    .w-green  { background: #27c93f; }
+
+    .terminal-title-text {
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      font-weight: 700;
+      color: rgba(0, 255, 102, 0.8);
+    }
+
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      background: rgba(0, 255, 102, 0.1);
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid rgba(0, 255, 102, 0.3);
+    }
+
+    .status-pulse {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--neon-green);
+      box-shadow: 0 0 10px var(--neon-green);
+      animation: blink 1s infinite alternate;
+      flex-shrink: 0;
+    }
+
+    @keyframes blink {
+      0%   { opacity: 1; }
+      100% { opacity: 0.3; }
+    }
+
+    .terminal-content {
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Diagnostics Scan Grid */
+    .diag-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 0.95rem;
+    }
+
+    .diag-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 10px 15px;
+      border-radius: 6px;
+      border: 1px solid rgba(0, 255, 102, 0.15);
+      opacity: 0.3;
+      transition: all 0.3s ease;
+    }
+
+    .diag-item.active {
+      opacity: 1;
+      border-color: var(--neon-green);
+      background: rgba(0, 255, 102, 0.05);
+    }
+
+    .diag-item.done {
+      opacity: 0.9;
+      border-color: rgba(0, 255, 102, 0.4);
+    }
+
+    .check-mark {
+      color: var(--neon-green);
+      font-weight: bold;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .diag-item.done .check-mark { opacity: 1; }
+
+    /* Identity Card Box */
+    .identity-box {
+      background: rgba(0, 40, 15, 0.4);
+      border: 1px solid var(--neon-green);
+      border-radius: 8px;
+      padding: 18px;
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .identity-header {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+
+    .identity-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px dashed rgba(0, 255, 102, 0.2);
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    /* Command CLI Console */
+    .cli-box {
+      background: #000;
+      border-radius: 6px;
+      padding: 12px 15px;
+      font-size: 0.9rem;
+      color: #fff;
+      min-height: 80px;
+      border: 1px solid rgba(0, 255, 102, 0.2);
+    }
+
+    .cli-line {
+      margin-bottom: 6px;
+    }
+
+    .cli-prompt {
+      color: var(--cyber-blue);
+      margin-right: 8px;
+    }
+
+    /* ==========================================================================
+       PHASE 6: GLITCH & ACCESS GRANTED
+       ========================================================================== */
+    .glitch-active {
+      animation: glitchShake 0.15s infinite;
+      filter: contrast(1.4) hue-rotate(90deg);
+    }
+
+    @keyframes glitchShake {
+      0%   { transform: translate(0); }
+      25%  { transform: translate(-5px, 5px); }
+      50%  { transform: translate(5px, -5px); }
+      75%  { transform: translate(-5px, -5px); }
+      100% { transform: translate(5px, 5px); }
+    }
+
+    .access-title {
+      font-size: 4rem;
+      font-weight: 900;
+      color: var(--alert-red);
+      text-shadow: 0 0 35px var(--alert-red);
+      letter-spacing: 8px;
+      text-align: center;
+      animation: pulseGlowRed 0.3s infinite alternate;
+    }
+
+    @keyframes pulseGlowRed {
+      0%   { text-shadow: 0 0 15px var(--alert-red); transform: scale(0.98); }
+      100% { text-shadow: 0 0 40px var(--alert-red); transform: scale(1.02); }
+    }
+
+    /* ==========================================================================
+       PHASE 7: AI MESSAGE
+       ========================================================================== */
+    #ai-message-screen {
+      background: #000000;
+      z-index: 60;
+    }
+
+    .ai-box {
+      max-width: 700px;
+      width: 90%;
+      text-align: center;
+      font-size: 1.6rem;
+      color: #ffffff;
+      line-height: 1.8;
+      font-weight: 600;
+    }
+
+    .ai-tag {
+      display: inline-block;
+      font-size: 0.85rem;
+      color: var(--cyber-blue);
+      border: 1px solid var(--cyber-blue);
+      padding: 4px 12px;
+      border-radius: 4px;
+      letter-spacing: 3px;
+      margin-bottom: 25px;
+    }
+
+    /* ==========================================================================
+       PHASE 8: CINEMATIC COUNTDOWN
+       ========================================================================== */
+    #countdown-screen {
+      background: #000;
+      z-index: 70;
+    }
+
+    .countdown-number {
+      font-family: 'Outfit', sans-serif;
+      font-size: 14rem;
+      font-weight: 900;
+      color: #ffffff;
+      text-shadow: 0 0 60px rgba(255, 255, 255, 0.8);
+      animation: countPulse 0.9s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      will-change: transform;
+    }
+
+    @keyframes countPulse {
+      0%   { transform: scale(0.3); opacity: 0; }
+      50%  { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1);   opacity: 1; }
+    }
+
+    /* ==========================================================================
+       PHASE 9 & 10: BIRTHDAY PARTY REVEAL & VAULT
+       ========================================================================== */
+    #party-screen {
+      position: relative;
+      min-height: 100vh;
+      width: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      z-index: 80;
+      background: linear-gradient(135deg, var(--party-bg-1), var(--party-bg-2), var(--party-bg-3));
+      background-size: 400% 400%;
+      animation: partyGradient 15s ease infinite;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px 80px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1.5s ease-in-out;
+    }
+
+    #party-screen.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    @keyframes partyGradient {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    #confetti-canvas, #fireworks-canvas {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      pointer-events: none;
+      z-index: 82;
+    }
+
+    .balloon-layer {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      pointer-events: none;
+      z-index: 81;
+      overflow: hidden;
+    }
+
+    .balloon {
+      position: absolute;
+      bottom: -120px;
+      width: 55px; height: 70px;
+      border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+      animation: balloonFloat 9s ease-in infinite;
+      opacity: 0.85;
+      will-change: transform;
+    }
+    .balloon::after {
+      content: '';
+      position: absolute;
+      bottom: -12px; left: 25px;
+      width: 2px; height: 45px;
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    @keyframes balloonFloat {
+      0%   { transform: translateY(0) rotate(0deg);   opacity: 0.9; }
+      100% { transform: translateY(-115vh) rotate(25deg); opacity: 0.1; }
+    }
+
+    /* Main Celebration Card */
+    .hero-birthday-card {
+      position: relative;
+      z-index: 90;
+      max-width: 750px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 28px;
+      padding: 50px 35px;
+      text-align: center;
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5), inset 0 0 30px rgba(255, 255, 255, 0.1);
+      margin-bottom: 50px;
+    }
+
+    .sim-tag {
+      display: inline-block;
+      padding: 6px 20px;
+      background: linear-gradient(90deg, #ff4081, #ff9100);
+      color: #fff;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 800;
+      border-radius: 50px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+      box-shadow: 0 5px 20px rgba(255, 64, 129, 0.4);
+    }
+
+    .hero-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: #ffffff;
+      margin-bottom: 15px;
+      line-height: 1.25;
+    }
+
+    .hero-sub {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      color: rgba(255, 255, 255, 0.85);
+      margin-bottom: 25px;
+      line-height: 1.6;
+    }
+
+    .hero-name {
+      font-family: 'Dancing Script', cursive;
+      font-size: 4.2rem;
+      color: var(--party-gold);
+      text-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
+      margin: 20px 0 30px;
+      animation: floatGlow 3s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+
+    @keyframes floatGlow {
+      0%   { transform: translateY(0);    text-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+      100% { transform: translateY(-8px); text-shadow: 0 0 35px rgba(255, 215, 0, 0.9); }
+    }
+
+    /* Vault Section Container */
+    .vault-window {
+      position: relative;
+      z-index: 90;
+      max-width: 950px;
+      width: 100%;
+      background: rgba(20, 12, 35, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 24px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+      margin-bottom: 60px;
+    }
+
+    .vault-header {
+      padding: 22px 30px;
+      background: rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .vault-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 1px;
+    }
+
+    .vault-tabs {
+      display: flex;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 6px 15px;
+      gap: 10px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .v-tab-btn {
+      padding: 14px 22px;
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, 0.6);
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.25s ease;
+      flex-shrink: 0;
+    }
+
+    .v-tab-btn:hover  { color: #fff; }
+    .v-tab-btn.active { color: var(--party-accent); border-bottom-color: var(--party-accent); }
+
+    .vault-body {
+      padding: 35px;
+      min-height: 380px;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .v-pane { display: none; }
+    .v-pane.active { display: block; animation: paneFade 0.4s ease; }
+
+    @keyframes paneFade {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Memory Polaroid Cards */
+    .polaroid-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 25px;
+    }
+
+    .polaroid-card {
+      background: #ffffff;
+      padding: 12px 12px 18px;
+      border-radius: 8px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+      transform: rotate(-3deg);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      color: #333;
+      text-align: center;
+    }
+    .polaroid-card:nth-child(even) { transform: rotate(3deg); }
+    .polaroid-card:hover {
+      transform: scale(1.08) rotate(0deg);
+      z-index: 10;
+      box-shadow: 0 20px 40px rgba(255, 64, 129, 0.4);
+    }
+
+    .p-img {
+      width: 100%;
+      height: 160px;
+      border-radius: 4px;
+      display: block;
+      overflow: hidden;
+    }
+
+    .p-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 4px;
+      display: block;
+      transition: transform 0.35s ease;
+      will-change: transform;
+      /* Prevent layout shift — show a placeholder bg until image loads */
+      background-color: rgba(0, 255, 102, 0.08);
+    }
+
+    .polaroid-card:hover .p-img img {
+      transform: scale(1.05);
+    }
+
+    .p-cap {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.4rem;
+      margin-top: 12px;
+      color: #222;
+    }
+
+    /* === LIGHTBOX === */
+    .lightbox-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .lightbox-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .lightbox-blur-bg {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+    .lightbox-img-wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 88vw;
+      max-height: 85vh;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+      animation: lbPop 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes lbPop {
+      from { transform: scale(0.82); opacity: 0; }
+      to   { transform: scale(1);    opacity: 1; }
+    }
+    .lightbox-img-wrap img {
+      display: block;
+      max-width: 88vw;
+      max-height: 85vh;
+      object-fit: contain;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 10px;
+      right: 14px;
+      font-size: 2rem;
+      color: #fff;
+      cursor: pointer;
+      line-height: 1;
+      text-shadow: 0 0 10px rgba(0,0,0,0.8);
+      z-index: 2;
+      transition: transform 0.2s ease;
+    }
+    .lightbox-close:hover { transform: scale(1.2); }
+
+    /* Interactive 3D Cake */
+    .cake-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 25px;
+    }
+
+    .cake-visual {
+      position: relative;
+      width: 220px;
+      height: 150px;
+      background: linear-gradient(#ff80ab, #e91e63);
+      border-radius: 24px 24px 12px 12px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    }
+    .cake-visual::before {
+      content: '';
+      position: absolute;
+      top: -25px; left: 0; right: 0;
+      height: 35px;
+      background: #ffffff;
+      border-radius: 20px;
+    }
+
+    .cake-candles {
+      position: absolute;
+      top: -65px; left: 0; right: 0;
+      display: flex;
+      justify-content: space-around;
+      padding: 0 35px;
+    }
+
+    .c-candle {
+      width: 14px; height: 50px;
+      background: repeating-linear-gradient(45deg, #7c4dff, #7c4dff 6px, #fff 6px, #fff 12px);
+      border-radius: 4px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .c-flame {
+      position: absolute;
+      top: -20px; left: 50%;
+      transform: translateX(-50%);
+      width: 14px; height: 22px;
+      background: radial-gradient(ellipse at bottom, #ffea00 0%, #ff6d00 100%);
+      border-radius: 50% 50% 20% 20%;
+      box-shadow: 0 0 18px #ffea00;
+      animation: flameFlicker 0.2s infinite alternate;
+      transition: opacity 0.3s ease;
+      will-change: transform;
+    }
+    .c-flame.extinguished { opacity: 0; pointer-events: none; }
+
+    @keyframes flameFlicker {
+      0%   { transform: translateX(-50%) scale(1); }
+      100% { transform: translateX(-50%) scale(1.18) rotate(3deg); }
+    }
+
+    .cake-banner {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--party-gold);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    .cake-banner.show { opacity: 1; }
+
+    /* Decrypting Letter */
+    .letter-card {
+      background: #fffdf5;
+      color: #2b2b2b;
+      padding: 35px;
+      border-radius: 16px;
+      line-height: 1.9;
+      font-size: 1.15rem;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    }
+    .letter-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.4rem;
+      color: #d81b60;
+      margin-bottom: 15px;
+    }
+
+    /* Achievement Badges */
+    .badge-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .achieve-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+    .achieve-card:hover { transform: translateY(-5px); border-color: var(--party-gold); }
+
+    .achieve-icon { font-size: 2.8rem; margin-bottom: 10px; }
+    .achieve-name { font-size: 1.15rem; font-weight: 800; color: var(--party-gold); margin-bottom: 6px; }
+    .achieve-desc { font-size: 0.9rem; color: rgba(255, 255, 255, 0.75); }
+
+    /* Final Mission Complete Footer */
+    .final-footer {
+      position: relative;
+      z-index: 90;
+      text-align: center;
+      padding: 30px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(0, 255, 102, 0.3);
+      border-radius: 16px;
+      max-width: 650px;
+      width: 100%;
+    }
+
+    .footer-title {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--neon-green);
+      letter-spacing: 3px;
+      margin-bottom: 10px;
+    }
+
+    /* ==========================================================================
+       RESPONSIVE TWEAKS
+       ========================================================================== */
+    @media (max-width: 768px) {
+      .terminal-top-bar { flex-wrap: wrap; gap: 8px; }
+      .terminal-title-text { font-size: 0.75rem; }
+      .vault-body { padding: 20px; }
+      .polaroid-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+      .badge-grid { grid-template-columns: 1fr 1fr; }
+      .hero-birthday-card { padding: 35px 20px; }
+    }
+
+    @media (max-width: 600px) {
+      .hero-title        { font-size: 1.8rem; }
+      .hero-name         { font-size: 3rem; }
+      .countdown-number  { font-size: 8rem; }
+      .access-title      { font-size: 2.5rem; }
+      .ai-box            { font-size: 1.2rem; }
+      .vault-title       { font-size: 1.1rem; }
+      .v-tab-btn         { padding: 10px 14px; font-size: 0.88rem; }
+      .polaroid-grid     { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .badge-grid        { grid-template-columns: 1fr; }
+      .cake-visual       { width: 160px; height: 110px; }
+      .letter-card       { padding: 22px; font-size: 1rem; }
+      .boot-box          { font-size: 0.95rem; }
+      .boot-flash-banner { font-size: 1.8rem; }
+    }
+
+    @media (max-width: 380px) {
+      .hero-name         { font-size: 2.4rem; }
+      .countdown-number  { font-size: 6rem; }
+      .polaroid-grid     { grid-template-columns: 1fr; }
+    }
+
+    /* Reduced motion support */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =====================================================================
+       ASSET LOADING SCREEN
+       ===================================================================== -->
+  <div id="loading-screen" role="status" aria-label="Loading birthday experience">
+    <div class="loading-logo">🎂</div>
+    <div class="loading-text">Initializing Simulation</div>
+    <div class="loading-bar-track">
+      <div class="loading-bar-fill"></div>
+    </div>
+  </div>
+
+  <!-- Fixed Top Sound Controls -->
+  <div class="top-controls" id="top-controls">
+    <button class="cyber-btn" id="sound-btn" onclick="toggleSoundSystem()" aria-label="Toggle Sound">
+      <span id="sound-icon">🚨</span> <span id="sound-txt">Sound: OFF</span>
+    </button>
+  </div>
+
+  <!-- CRT Screen Overlay -->
+  <div class="crt-overlay" id="crt-overlay" aria-hidden="true"></div>
+
+  <!-- Matrix Background Canvas -->
+  <canvas id="matrix-canvas" aria-hidden="true"></canvas>
+
+  <!-- =====================================================================
+       PHASE 1: BOOT SEQUENCE SCREEN
+       ===================================================================== -->
+  <div class="phase-screen active" id="boot-screen" role="main" aria-label="Boot sequence">
+    <div class="boot-box">
+      <div id="boot-logs" aria-live="polite"></div>
+      <div class="boot-progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="boot-progress-bar">
+        <div class="boot-progress-fill" id="boot-fill"></div>
+      </div>
+      <div class="boot-flash-banner" id="boot-banner" aria-live="assertive">SIMULATION ACTIVE</div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       PHASE 2 - 5: MAIN TERMINAL SUITE
+       ===================================================================== -->
+  <div class="phase-screen" id="terminal-screen" role="main" aria-label="Terminal diagnostics">
+    <div class="apple-terminal">
+      <div class="terminal-top-bar">
+        <div class="window-controls" aria-hidden="true">
+          <div class="w-dot w-red"></div>
+          <div class="w-dot w-yellow"></div>
+          <div class="w-dot w-green"></div>
+        </div>
+        <div class="terminal-title-text">CRITICAL_SYSTEM_OVERRIDE v5.0 | <span id="live-clock">00:00:00</span></div>
+        <div class="status-badge">
+          <div class="status-pulse" aria-hidden="true"></div>
+          <span>Simulation ONLINE</span>
+        </div>
+      </div>
+
+      <div class="terminal-content">
+        <!-- Terminal Header Text -->
+        <div style="font-size: 1.1rem; font-weight: 700; color: #fff;">
+          <span id="term-typing"></span><span aria-hidden="true" style="display:inline-block; width:8px; height:1rem; background:var(--neon-green); margin-left:4px;"></span>
+        </div>
+
+        <!-- Diagnostic Items -->
+        <div class="diag-grid" role="list">
+          <div class="diag-item" id="diag-0" role="listitem">
+            <span>[1/5] Scanning Network &amp; Hardware Signature...</span>
+            <span class="check-mark" aria-hidden="true">✓</span>
+          </div>
+          <div class="diag-item" id="diag-1" role="listitem">
+            <span>[2/5] Checking System Health &amp; Integrity...</span>
+            <span class="check-mark" aria-hidden="true">✓</span>
+          </div>
+          <div class="diag-item" id="diag-2" role="listitem">
+            <span>[3/5] Loading Central Birthday Database...</span>
+            <span class="check-mark" aria-hidden="true">✓</span>
+          </div>
+          <div class="diag-item" id="diag-3" role="listitem">
+            <span>[4/5] Analyzing Friendship Timeline (2015 - 2026)...</span>
+            <span class="check-mark" aria-hidden="true">✓</span>
+          </div>
+          <div class="diag-item" id="diag-4" role="listitem">
+            <span>[5/5] Preparing Celebration Payload...</span>
+            <span class="check-mark" aria-hidden="true">✓</span>
+          </div>
+        </div>
+
+        <!-- Identity Verification Box -->
+        <div class="identity-box" id="identity-box" aria-live="polite">
+          <div class="identity-header">RUNNING IDENTITY VERIFICATION... [MATCH FOUND]</div>
+          <div class="identity-row">
+            <span>Target Name:</span> <strong style="color:#fff;">Sakshi</strong>
+          </div>
+          <div class="identity-row">
+            <span>Birthday Status:</span> <strong style="color:var(--alert-yellow);">TODAY 🎂</strong>
+          </div>
+          <div class="identity-row">
+            <span>Friendship Level:</span> <strong style="color:var(--neon-green);">∞ (MAXIMUM)</strong>
+          </div>
+        </div>
+
+        <!-- CLI Console Box -->
+        <div class="cli-box" id="cli-box" aria-live="polite">
+          <div class="cli-line"><span class="cli-prompt">sys@admin:~#</span><span id="cli-typed"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       PHASE 6: GLITCH & ACCESS GRANTED SCREEN
+       ===================================================================== -->
+  <div class="phase-screen" id="glitch-screen" role="alert" aria-label="System override">
+    <div style="text-align: center;">
+      <div style="font-size: 2rem; color: var(--alert-yellow); letter-spacing: 4px; margin-bottom: 15px;">⚠️ SYSTEM OVERRIDE IN PROGRESS ⚠️</div>
+      <div class="access-title">ACCESS GRANTED</div>
+      <div style="font-size: 1.2rem; color: var(--neon-green); margin-top: 20px; letter-spacing: 3px;">CELEBRATION PAYLOAD UNLOCKED</div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       PHASE 7: AI MESSAGE SCREEN
+       ===================================================================== -->
+  <div class="phase-screen" id="ai-message-screen" role="main" aria-label="AI message">
+    <div class="ai-box">
+      <div class="ai-tag">SYSTEM MESSAGE</div>
+      <div id="ai-text" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       PHASE 8: CINEMATIC COUNTDOWN SCREEN
+       ===================================================================== -->
+  <div class="phase-screen" id="countdown-screen" role="timer" aria-label="Countdown">
+    <div class="countdown-number" id="countdown-num" aria-live="assertive">5</div>
+  </div>
+
+  <!-- =====================================================================
+       PHASE 9 & 10: BIRTHDAY PARTY REVEAL & VAULT
+       ===================================================================== -->
+  <div id="party-screen" role="main" aria-label="Birthday celebration">
+    <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+    <canvas id="fireworks-canvas" aria-hidden="true"></canvas>
+    <div class="balloon-layer" id="balloon-layer" aria-hidden="true"></div>
+
+    <!-- Main Hero Card -->
+    <div class="hero-birthday-card">
+      <div class="sim-tag">🎬 SIMULATION COMPLETE 🎬</div>
+
+      <h1 class="hero-title">
+        😂 Relax! You weren't hacked.
+      </h1>
+
+      <p class="hero-sub">
+        This was just a movie-style hacker simulation.<br>
+        The only thing I successfully captured was your attention. ❤️
+      </p>
+
+      <div class="hero-name">
+        Happy Birthday, Sakshi! 🎉
+      </div>
+    </div>
+
+    <!-- TOP SECRET Birthday Vault -->
+    <div class="vault-window">
+      <div class="vault-header">
+        <div class="vault-title">🔒 TOP SECRET BIRTHDAY VAULT</div>
+      </div>
+
+      <div class="vault-tabs" role="tablist">
+        <button class="v-tab-btn active" id="tab-memories" role="tab" aria-selected="true"  aria-controls="v-memories" onclick="switchVaultTab('v-memories', this)">📸 Memories</button>
+        <button class="v-tab-btn"        id="tab-cake"     role="tab" aria-selected="false" aria-controls="v-cake"     onclick="switchVaultTab('v-cake', this)">🎂 Blow Candles</button>
+        <button class="v-tab-btn"        id="tab-letter"   role="tab" aria-selected="false" aria-controls="v-letter"   onclick="switchVaultTab('v-letter', this)">💌 Secret Letter</button>
+        <button class="v-tab-btn"        id="tab-awards"   role="tab" aria-selected="false" aria-controls="v-awards"   onclick="switchVaultTab('v-awards', this)">🏆 Achievements</button>
+      </div>
+
+      <div class="vault-body">
+
+        <!-- Tab 1: Memories -->
+        <div class="v-pane active" id="v-memories" role="tabpanel" aria-labelledby="tab-memories">
+          <div class="polaroid-grid">
+            <div class="polaroid-card" onclick="openLightbox('images/photo1.jpg')" role="button" tabindex="0" aria-label="Open Best Memories photo">
+              <div class="p-img">
+                <img src="images/photo1.jpg" alt="Best Memories with Sakshi" loading="lazy" decoding="async" width="200" height="160">
+              </div>
+              <div class="p-cap">Best Memories</div>
+            </div>
+            <div class="polaroid-card" onclick="openLightbox('images/photo2.jpeg')" role="button" tabindex="0" aria-label="Open Birthday Queen photo">
+              <div class="p-img">
+                <img src="images/photo2.jpeg" alt="Birthday Queen Sakshi" loading="lazy" decoding="async" width="200" height="160">
+              </div>
+              <div class="p-cap">Birthday Queen</div>
+            </div>
+            <div class="polaroid-card" onclick="openLightbox('images/photo3.jpeg')" role="button" tabindex="0" aria-label="Open Non-Stop Laughs photo">
+              <div class="p-img">
+                <img src="images/photo3.jpeg" alt="Non-Stop Laughs with Sakshi" loading="lazy" decoding="async" width="200" height="160">
+              </div>
+              <div class="p-cap">Non-Stop Laughs</div>
+            </div>
+            <div class="polaroid-card" onclick="openLightbox('images/photo4.jpg')" role="button" tabindex="0" aria-label="Open Forever Bestie photo">
+              <div class="p-img">
+                <img src="images/photo4.jpg" alt="Forever Bestie Sakshi" loading="lazy" decoding="async" width="200" height="160">
+              </div>
+              <div class="p-cap">Forever Bestie</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lightbox Overlay -->
+        <div class="lightbox-overlay" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo lightbox" onclick="closeLightbox()">
+          <div class="lightbox-blur-bg"></div>
+          <div class="lightbox-img-wrap" onclick="event.stopPropagation()">
+            <span class="lightbox-close" onclick="closeLightbox()" role="button" tabindex="0" aria-label="Close photo">&times;</span>
+            <img id="lightbox-img" src="" alt="Memory photo enlarged" loading="lazy">
+          </div>
+        </div>
+
+        <!-- Tab 2: Interactive Cake -->
+        <div class="v-pane" id="v-cake" role="tabpanel" aria-labelledby="tab-cake">
+          <div class="cake-box">
+            <div style="color:rgba(255,255,255,0.85); font-size:1.1rem; text-align:center;">Click or tap the candle flames to blow them out &amp; make a wish! 🕯️</div>
+
+            <div class="cake-visual" aria-label="Birthday cake">
+              <div class="cake-candles" role="group" aria-label="Cake candles">
+                <div class="c-candle" onclick="extinguishFlame(this)" role="button" tabindex="0" aria-label="Blow out candle 1"><div class="c-flame"></div></div>
+                <div class="c-candle" onclick="extinguishFlame(this)" role="button" tabindex="0" aria-label="Blow out candle 2"><div class="c-flame"></div></div>
+                <div class="c-candle" onclick="extinguishFlame(this)" role="button" tabindex="0" aria-label="Blow out candle 3"><div class="c-flame"></div></div>
+              </div>
+            </div>
+
+            <div class="cake-banner" id="cake-banner" aria-live="polite">
+              ✨ Wish Sent Successfully to the Stars! ✨
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 3: Decrypted Secret Letter -->
+        <div class="v-pane" id="v-letter" role="tabpanel" aria-labelledby="tab-letter">
+          <div class="letter-card">
+            <div class="letter-title">Dearest Sakshi,</div>
+            <div id="decrypted-letter-text" aria-live="polite">
+              Decrypting birthday message...
+            </div>
+            <div style="font-family:'Dancing Script', cursive; font-size:1.8rem; text-align:right; color:#7b1fa2; margin-top:20px;">
+              With endless love &amp; smiles ❤️
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 4: Achievements -->
+        <div class="v-pane" id="v-awards" role="tabpanel" aria-labelledby="tab-awards">
+          <div class="badge-grid">
+            <div class="achieve-card">
+              <div class="achieve-icon">🏆</div>
+              <div class="achieve-name">Best Friend</div>
+              <div class="achieve-desc">Awarded for 100% loyalty &amp; endless fun</div>
+            </div>
+            <div class="achieve-card">
+              <div class="achieve-icon">👑</div>
+              <div class="achieve-name">Queen of Chaos</div>
+              <div class="achieve-desc">Master of turning ordinary days into adventures</div>
+            </div>
+            <div class="achieve-card">
+              <div class="achieve-icon">😂</div>
+              <div class="achieve-name">Professional Laugh Generator</div>
+              <div class="achieve-desc">Guaranteed to make everyone smile 24/7</div>
+            </div>
+            <div class="achieve-card">
+              <div class="achieve-icon">🎭</div>
+              <div class="achieve-name">Certified Drama Expert</div>
+              <div class="achieve-desc">For bringing cinematic flair to everyday life</div>
+            </div>
+            <div class="achieve-card">
+              <div class="achieve-icon">🌟</div>
+              <div class="achieve-name">Friendship Level MAX</div>
+              <div class="achieve-desc">Infinite bond unlocked forever</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Final Footer Status -->
+    <div class="final-footer">
+      <div class="footer-title">MISSION COMPLETE</div>
+      <div style="color:#fff; font-size:1.1rem; margin-bottom:12px;">Birthday Payload Successfully Delivered</div>
+      <div style="color:var(--neon-green); font-size:1.2rem; font-weight:bold;">
+        Friendship Status: [██████████████] 100% Forever ❤️
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       JAVASCRIPT SIMULATION LOGIC
+       ===================================================================== -->
+  <script>
+    /* ==========================================================================
+       LOADING SCREEN HANDLER
+       ========================================================================== */
+    (function () {
+      var loadingScreen = document.getElementById('loading-screen');
+      var fontsReady = false;
+      var domReady   = false;
+
+      function maybeHideLoader() {
+        if (fontsReady && domReady) {
+          loadingScreen.classList.add('hidden');
+          // Remove from DOM after transition
+          setTimeout(function () {
+            if (loadingScreen.parentNode) {
+              loadingScreen.parentNode.removeChild(loadingScreen);
+            }
+          }, 700);
+        }
+      }
+
+      // Fonts
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(function () {
+          fontsReady = true;
+          maybeHideLoader();
+        }).catch(function () {
+          fontsReady = true;
+          maybeHideLoader();
+        });
+      } else {
+        // Fallback: assume fonts are ready after 1.5s
+        setTimeout(function () { fontsReady = true; maybeHideLoader(); }, 1500);
+      }
+
+      // DOM + images
+      window.addEventListener('load', function () {
+        domReady = true;
+        maybeHideLoader();
+        runPhase1();
+      });
+    })();
+
+    /* ==========================================================================
+       AUDIO SYNTHESIZER ENGINE (Web Audio API — no external files)
+       ========================================================================== */
+    var AUDIO = {
+      ctx: null,
+      enabled: false,
+      candlesOut: 0
+    };
+
+    function initAudio() {
+      if (!AUDIO.ctx) {
+        try {
+          var AudioCtx = window.AudioContext || window.webkitAudioContext;
+          AUDIO.ctx = new AudioCtx();
+        } catch (e) {
+          console.warn('Web Audio API not supported:', e);
+          return;
+        }
+      }
+      if (AUDIO.ctx.state === 'suspended') {
+        AUDIO.ctx.resume().catch(function(){});
+      }
+    }
+
+    function toggleSoundSystem() {
+      initAudio();
+      AUDIO.enabled = !AUDIO.enabled;
+      var icon = document.getElementById('sound-icon');
+      var txt  = document.getElementById('sound-txt');
+
+      if (AUDIO.enabled) {
+        icon.textContent = '🔊';
+        txt.textContent  = 'Sound: ON';
+        playTone(880, 0.1, 'sine');
+      } else {
+        icon.textContent = '🚨';
+        txt.textContent  = 'Sound: OFF';
+      }
+    }
+
+    function playTone(freq, duration, type, vol) {
+      freq     = freq     || 440;
+      duration = duration || 0.08;
+      type     = type     || 'sine';
+      vol      = vol      || 0.12;
+
+      if (!AUDIO.enabled || !AUDIO.ctx) return;
+      try {
+        var osc  = AUDIO.ctx.createOscillator();
+        var gain = AUDIO.ctx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, AUDIO.ctx.currentTime);
+        gain.gain.setValueAtTime(vol, AUDIO.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, AUDIO.ctx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(AUDIO.ctx.destination);
+        osc.start();
+        osc.stop(AUDIO.ctx.currentTime + duration);
+      } catch(e) {}
+    }
+
+    function playBassThud() {
+      playTone(100, 0.4, 'triangle', 0.4);
+    }
+
+    function playHappyBirthdayLoop() {
+      if (!AUDIO.enabled || !AUDIO.ctx) return;
+      var notes = [264, 264, 297, 264, 352, 330, 264, 264, 297, 264, 396, 352];
+      notes.forEach(function (freq, idx) {
+        setTimeout(function () { playTone(freq, 0.35, 'sine', 0.2); }, idx * 400);
+      });
+    }
+
+    /* ==========================================================================
+       CLOCK & MATRIX RAIN ENGINE
+       ========================================================================== */
+    function updateLiveClock() {
+      var el = document.getElementById('live-clock');
+      if (el) el.textContent = new Date().toTimeString().split(' ')[0];
+    }
+    setInterval(updateLiveClock, 1000);
+    updateLiveClock();
+
+    var mCanvas = document.getElementById('matrix-canvas');
+    var mCtx    = mCanvas.getContext('2d');
+
+    function resizeMatrix() {
+      mCanvas.width  = window.innerWidth;
+      mCanvas.height = window.innerHeight;
+      mCols  = Math.floor(mCanvas.width / mFontSize);
+      mDrops = new Array(mCols).fill(1);
+    }
+
+    var mChars    = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZSAKSHIBIRTHDAY\u2665#$@%&*';
+    var mFontSize = 16;
+    var mCols, mDrops;
+
+    resizeMatrix();
+
+    var resizeTimeout;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(resizeMatrix, 150);
+    });
+
+    function drawMatrix() {
+      mCtx.fillStyle = 'rgba(3, 5, 3, 0.08)';
+      mCtx.fillRect(0, 0, mCanvas.width, mCanvas.height);
+      mCtx.fillStyle = '#00ff66';
+      mCtx.font      = mFontSize + 'px monospace';
+
+      for (var i = 0; i < mDrops.length; i++) {
+        var text = mChars.charAt(Math.floor(Math.random() * mChars.length));
+        mCtx.fillText(text, i * mFontSize, mDrops[i] * mFontSize);
+        if (mDrops[i] * mFontSize > mCanvas.height && Math.random() > 0.975) {
+          mDrops[i] = 0;
+        }
+        mDrops[i]++;
+      }
+    }
+    var matrixInt = setInterval(drawMatrix, 33);
+
+    /* ==========================================================================
+       PHASE SEQUENCER (10 PHASES)
+       ========================================================================== */
+    function switchPhase(screenId) {
+      document.querySelectorAll('.phase-screen').forEach(function (s) {
+        s.classList.remove('active');
+      });
+      var target = document.getElementById(screenId);
+      if (target) target.classList.add('active');
+    }
+
+    // Phase 1: Boot Sequence
+    function runPhase1() {
+      var bootLogs   = document.getElementById('boot-logs');
+      var bootFill   = document.getElementById('boot-fill');
+      var bootBanner = document.getElementById('boot-banner');
+      var bootBar    = document.getElementById('boot-progress-bar');
+
+      var lines = [
+        'INITIALIZING...',
+        'Loading Secure Kernel...',
+        'Checking System Integrity...',
+        'Starting Simulation Engine...'
+      ];
+
+      var idx = 0;
+      function addBootLine() {
+        if (idx < lines.length) {
+          var div = document.createElement('div');
+          div.className   = 'boot-line';
+          div.textContent = '> ' + lines[idx];
+          bootLogs.appendChild(div);
+          playTone(900 + idx * 100, 0.06, 'square', 0.05);
+          idx++;
+          setTimeout(addBootLine, 400);
+        } else {
+          // Fill progress bar
+          var pct = 0;
+          var fillInt = setInterval(function () {
+            pct += 5;
+            bootFill.style.width = pct + '%';
+            if (bootBar) bootBar.setAttribute('aria-valuenow', pct);
+            if (pct >= 100) {
+              clearInterval(fillInt);
+              bootBanner.style.opacity = '1';
+              playBassThud();
+              setTimeout(function () {
+                switchPhase('terminal-screen');
+                runPhase2To5();
+              }, 1200);
+            }
+          }, 40);
+        }
+      }
+      setTimeout(addBootLine, 300);
+    }
+
+    // Phase 2-5: Terminal Diagnostics & CLI
+    function runPhase2To5() {
+      var termTyping = document.getElementById('term-typing');
+      var text = 'Establishing Secure Connection...';
+      var charIdx = 0;
+
+      function typeHeader() {
+        if (charIdx < text.length) {
+          termTyping.textContent += text.charAt(charIdx);
+          charIdx++;
+          playTone(1100, 0.03, 'sine', 0.04);
+          setTimeout(typeHeader, 45);
+        } else {
+          setTimeout(runDiagnostics, 500);
+        }
+      }
+      typeHeader();
+    }
+
+    function runDiagnostics() {
+      var step = 0;
+      function nextDiag() {
+        if (step < 5) {
+          var item = document.getElementById('diag-' + step);
+          item.classList.add('active');
+          playTone(800 + step * 100, 0.08, 'sine', 0.06);
+
+          setTimeout(function () {
+            item.classList.remove('active');
+            item.classList.add('done');
+            step++;
+            setTimeout(nextDiag, 350);
+          }, 600);
+        } else {
+          document.getElementById('identity-box').style.display = 'block';
+          playBassThud();
+          setTimeout(runPhase5CLI, 1200);
+        }
+      }
+      nextDiag();
+    }
+
+    // Phase 5: CLI Command Execution
+    function runPhase5CLI() {
+      var cliTyped = document.getElementById('cli-typed');
+      var cmds = ['sudo initialize', 'birthday_payload --prepare', 'launch_surprise'];
+      var cmdIdx = 0;
+
+      function typeCmd() {
+        if (cmdIdx < cmds.length) {
+          var str  = cmds[cmdIdx];
+          var cIdx = 0;
+          cliTyped.textContent = '';
+
+          function charLoop() {
+            if (cIdx < str.length) {
+              cliTyped.textContent += str.charAt(cIdx);
+              cIdx++;
+              playTone(1200, 0.03, 'square', 0.03);
+              setTimeout(charLoop, 50);
+            } else {
+              setTimeout(function () {
+                cmdIdx++;
+                typeCmd();
+              }, 700);
+            }
+          }
+          charLoop();
+        } else {
+          setTimeout(runPhase6Glitch, 500);
+        }
+      }
+      typeCmd();
+    }
+
+    // Phase 6: Glitch & Access Granted
+    function runPhase6Glitch() {
+      switchPhase('glitch-screen');
+      document.body.classList.add('glitch-active');
+      playTone(300, 0.5, 'sawtooth', 0.25);
+
+      setTimeout(function () {
+        document.body.classList.remove('glitch-active');
+        runPhase7AIMessage();
+      }, 2200);
+    }
+
+    // Phase 7: AI Message
+    function runPhase7AIMessage() {
+      switchPhase('ai-message-screen');
+      var aiText = document.getElementById('ai-text');
+      var msg = 'Hello Sakshi.\nDo not panic.\nEverything is working exactly as intended.\nThere is only one thing this simulation needs...\n\nYour Attention.';
+      var idx = 0;
+
+      function typeAI() {
+        if (idx < msg.length) {
+          var char = msg.charAt(idx);
+          if (char === '\n') {
+            aiText.appendChild(document.createElement('br'));
+          } else {
+            aiText.appendChild(document.createTextNode(char));
+          }
+          idx++;
+          playTone(700, 0.04, 'sine', 0.05);
+          setTimeout(typeAI, 60);
+        } else {
+          setTimeout(function () {
+            switchPhase('countdown-screen');
+            runPhase8Countdown();
+          }, 1800);
+        }
+      }
+      typeAI();
+    }
+
+    // Phase 8: Countdown 5 -> 1
+    function runPhase8Countdown() {
+      var count   = 5;
+      var numElem = document.getElementById('countdown-num');
+
+      var countInterval = setInterval(function () {
+        numElem.textContent = count;
+        numElem.style.animation = 'none';
+        // Force reflow to restart animation
+        void numElem.offsetWidth;
+        numElem.style.animation = 'countPulse 0.9s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+        playBassThud();
+        count--;
+        if (count < 1) {
+          clearInterval(countInterval);
+          setTimeout(runPhase9BirthdayReveal, 800);
+        }
+      }, 1000);
+    }
+
+    // Phase 9 & 10: Birthday Reveal & Vault
+    function runPhase9BirthdayReveal() {
+      document.querySelectorAll('.phase-screen').forEach(function (s) {
+        s.classList.remove('active');
+      });
+
+      var partyScreen = document.getElementById('party-screen');
+      var topCtrl     = document.getElementById('top-controls');
+      var crt         = document.getElementById('crt-overlay');
+      var mc          = document.getElementById('matrix-canvas');
+
+      crt.style.opacity = '0';
+      mc.style.opacity  = '0';
+      clearInterval(matrixInt);
+
+      partyScreen.classList.add('active');
+      topCtrl.classList.add('party-active');
+
+      initConfettiEngine();
+      initFireworksEngine();
+      generateBalloons();
+      playHappyBirthdayLoop();
+      startDecryptingLetter();
+    }
+
+    /* ==========================================================================
+       BALLOONS & CONFETTI & FIREWORKS
+       ========================================================================== */
+    function generateBalloons() {
+      var container = document.getElementById('balloon-layer');
+      var colors    = ['#ff4081', '#7c4dff', '#00e5ff', '#ffd700', '#ff9100', '#00e676'];
+      for (var i = 0; i < 20; i++) {
+        var b           = document.createElement('div');
+        b.className     = 'balloon';
+        b.style.left    = (Math.random() * 95) + '%';
+        b.style.backgroundColor    = colors[Math.floor(Math.random() * colors.length)];
+        b.style.animationDuration  = (7 + Math.random() * 6) + 's';
+        b.style.animationDelay     = (Math.random() * 4) + 's';
+        container.appendChild(b);
+      }
+    }
+
+    // Confetti Engine
+    var cCanvas, cCtx, cParticles = [];
+    function initConfettiEngine() {
+      cCanvas       = document.getElementById('confetti-canvas');
+      cCtx          = cCanvas.getContext('2d');
+      cCanvas.width  = window.innerWidth;
+      cCanvas.height = window.innerHeight;
+
+      var colors = ['#ff4081', '#7c4dff', '#00e5ff', '#ffd700', '#ffffff'];
+      for (var i = 0; i < 110; i++) {
+        cParticles.push({
+          x:    Math.random() * cCanvas.width,
+          y:    Math.random() * cCanvas.height - cCanvas.height,
+          size: Math.random() * 7 + 4,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          vx:   Math.random() * 4 - 2,
+          vy:   Math.random() * 3 + 2,
+          rot:  Math.random() * 360,
+          vRot: Math.random() * 6 - 3
+        });
+      }
+      animateConfetti();
+    }
+
+    function animateConfetti() {
+      if (!cCtx) return;
+      cCtx.clearRect(0, 0, cCanvas.width, cCanvas.height);
+      cParticles.forEach(function (p) {
+        p.x += p.vx; p.y += p.vy; p.rot += p.vRot;
+        if (p.y > cCanvas.height) { p.y = -10; p.x = Math.random() * cCanvas.width; }
+        cCtx.save();
+        cCtx.translate(p.x, p.y);
+        cCtx.rotate((p.rot * Math.PI) / 180);
+        cCtx.fillStyle = p.color;
+        cCtx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+        cCtx.restore();
+      });
+      requestAnimationFrame(animateConfetti);
+    }
+
+    // Fireworks Engine
+    var fCanvas, fCtx, fParticles = [];
+    function initFireworksEngine() {
+      fCanvas       = document.getElementById('fireworks-canvas');
+      fCtx          = fCanvas.getContext('2d');
+      fCanvas.width  = window.innerWidth;
+      fCanvas.height = window.innerHeight;
+
+      setInterval(function () {
+        createExplosion(
+          Math.random() * fCanvas.width,
+          Math.random() * fCanvas.height * 0.6
+        );
+      }, 1400);
+
+      animateFireworks();
+    }
+
+    function createExplosion(x, y) {
+      var colors = ['#ff4081', '#ffd700', '#00e5ff', '#ff9100'];
+      for (var i = 0; i < 30; i++) {
+        var angle = Math.random() * Math.PI * 2;
+        var speed = Math.random() * 5 + 2;
+        fParticles.push({
+          x: x, y: y,
+          vx:    Math.cos(angle) * speed,
+          vy:    Math.sin(angle) * speed,
+          alpha: 1,
+          color: colors[Math.floor(Math.random() * colors.length)]
+        });
+      }
+    }
+
+    function animateFireworks() {
+      if (!fCtx) return;
+      fCtx.clearRect(0, 0, fCanvas.width, fCanvas.height);
+      for (var i = fParticles.length - 1; i >= 0; i--) {
+        var p = fParticles[i];
+        p.x += p.vx; p.y += p.vy; p.alpha -= 0.02;
+        if (p.alpha <= 0) { fParticles.splice(i, 1); continue; }
+        fCtx.save();
+        fCtx.globalAlpha = p.alpha;
+        fCtx.fillStyle   = p.color;
+        fCtx.beginPath();
+        fCtx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+        fCtx.fill();
+        fCtx.restore();
+      }
+      requestAnimationFrame(animateFireworks);
+    }
+
+    /* ==========================================================================
+       VAULT INTERACTION LOGIC
+       ========================================================================== */
+    function switchVaultTab(tabId, btnElement) {
+      document.querySelectorAll('.v-tab-btn').forEach(function (b) {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      document.querySelectorAll('.v-pane').forEach(function (p) {
+        p.classList.remove('active');
+      });
+      if (btnElement) {
+        btnElement.classList.add('active');
+        btnElement.setAttribute('aria-selected', 'true');
+      }
+      var pane = document.getElementById(tabId);
+      if (pane) pane.classList.add('active');
+      playTone(700, 0.05, 'sine');
+    }
+
+    function extinguishFlame(candleElem) {
+      var flame = candleElem.querySelector('.c-flame');
+      if (!flame.classList.contains('extinguished')) {
+        flame.classList.add('extinguished');
+        playTone(300, 0.15, 'sawtooth', 0.1);
+        AUDIO.candlesOut++;
+
+        if (AUDIO.candlesOut >= 3) {
+          document.getElementById('cake-banner').classList.add('show');
+          createExplosion(window.innerWidth / 2, window.innerHeight / 2);
+          playHappyBirthdayLoop();
+        }
+      }
+    }
+
+    function startDecryptingLetter() {
+      var target = document.getElementById('decrypted-letter-text');
+      var letter = 'Hope this simulation movie brought a huge smile to your face!\n\nWishing you an incredible year ahead full of happiness, adventure, success, and laughter.\n\nThank you for being such an extraordinary friend and bringing so much joy into the world! \uD83C\uDF89';
+      var idx = 0;
+      target.textContent = '';
+
+      function typeLetter() {
+        if (idx < letter.length) {
+          var char = letter.charAt(idx);
+          if (char === '\n') {
+            target.appendChild(document.createElement('br'));
+          } else {
+            target.appendChild(document.createTextNode(char));
+          }
+          idx++;
+          setTimeout(typeLetter, 30);
+        }
+      }
+      typeLetter();
+    }
+
+    /* ==========================================================================
+       LIGHTBOX HELPERS (Memories Gallery)
+       ========================================================================== */
+    function openLightbox(src) {
+      var lb  = document.getElementById('lightbox');
+      var img = document.getElementById('lightbox-img');
+      img.src = src;
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    // Keyboard accessibility for polaroid cards and candles
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        var el = document.activeElement;
+        if (el && el.classList.contains('polaroid-card')) {
+          e.preventDefault();
+          el.click();
+        }
+        if (el && el.classList.contains('c-candle')) {
+          e.preventDefault();
+          extinguishFlame(el);
+        }
+        if (el && el.classList.contains('lightbox-close')) {
+          e.preventDefault();
+          closeLightbox();
+        }
+      }
+    });
+
+    /* ==========================================================================
+       CAMERA: HTTPS-ONLY, GRACEFUL FALLBACK
+       (No camera is actually used in this experience, but the API is
+        checked safely — captured frames are never stored or uploaded.)
+       ========================================================================== */
+    function checkCameraAvailability() {
+      // Only attempt on HTTPS or localhost
+      var isSecure = location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+      if (!isSecure) return; // graceful skip
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return; // not supported
+      // Camera is available; feature ready if needed — no-op in current experience
+    }
+    checkCameraAvailability();
+
+    /* ==========================================================================
+       CANVAS RESIZE ON ORIENTATION / WINDOW CHANGE
+       ========================================================================== */
+    window.addEventListener('resize', function () {
+      if (cCanvas) { cCanvas.width = window.innerWidth; cCanvas.height = window.innerHeight; }
+      if (fCanvas) { fCanvas.width = window.innerWidth; fCanvas.height = window.innerHeight; }
+    });
+
+  </script>
+</body>
+</html>
