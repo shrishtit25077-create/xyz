@@ -1303,7 +1303,7 @@
   <!-- Fixed Top Sound Controls -->
   <div class="top-controls" id="top-controls">
     <button class="cyber-btn" id="sound-btn" onclick="toggleSoundSystem()" aria-label="Toggle Sound">
-      <span id="sound-icon">🚨</span> <span id="sound-txt">Sound: OFF</span>
+      <span id="sound-icon">&#x1F50A;</span> <span id="sound-txt">Sound: ON</span>
     </button>
   </div>
 
@@ -1680,9 +1680,10 @@
        AUDIO SYNTHESIZER ENGINE (Web Audio API — no external files)
        ========================================================================== */
     var AUDIO = {
-      ctx: null,
-      enabled: false,
-      candlesOut: 0
+      ctx:        null,
+      enabled:    true,   /* default ON — unlocks on first user interaction */
+      candlesOut: 0,
+      _unlocked:  false
     };
 
     function initAudio() {
@@ -1700,6 +1701,23 @@
       }
     }
 
+    /* Auto-unlock audio on the very first user gesture (browsers require this) */
+    function autoUnlockAudio() {
+      if (AUDIO._unlocked) return;
+      AUDIO._unlocked = true;
+      initAudio();
+      /* Brief silent tone to confirm AudioContext is running */
+      playTone(1, 0.001, 'sine', 0.001);
+      /* Remove listeners — only needs to fire once */
+      ['click','touchstart','keydown','pointerdown'].forEach(function (evt) {
+        document.removeEventListener(evt, autoUnlockAudio, true);
+      });
+    }
+    /* Attach to all common interaction events in capture phase */
+    ['click','touchstart','keydown','pointerdown'].forEach(function (evt) {
+      document.addEventListener(evt, autoUnlockAudio, true);
+    });
+
     function toggleSoundSystem() {
       initAudio();
       AUDIO.enabled = !AUDIO.enabled;
@@ -1707,11 +1725,11 @@
       var txt  = document.getElementById('sound-txt');
 
       if (AUDIO.enabled) {
-        icon.textContent = '🔊';
+        icon.textContent = '\uD83D\uDD0A'; /* 🔊 */
         txt.textContent  = 'Sound: ON';
         playTone(880, 0.1, 'sine');
       } else {
-        icon.textContent = '🚨';
+        icon.textContent = '\uD83D\uDD07'; /* 🔇 */
         txt.textContent  = 'Sound: OFF';
       }
     }
