@@ -991,6 +991,259 @@
     }
 
     /* ==========================================================================
+       CAMERA MODULE STYLES
+       ========================================================================== */
+
+    #camera-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 9995;
+      background: rgba(0, 0, 0, 0.97);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 22px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+    #camera-modal.cam-visible {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .cam-header {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      color: var(--neon-green);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      text-align: center;
+      animation: blink 1s infinite alternate;
+    }
+    .cam-scanner-wrap {
+      position: relative;
+      width: min(360px, 90vw);
+      aspect-ratio: 4 / 3;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid var(--neon-green);
+      box-shadow: 0 0 30px var(--neon-green-glow), inset 0 0 20px rgba(0,255,102,0.08);
+    }
+    #cam-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transform: scaleX(-1);
+      background: #000;
+    }
+    .cam-scan-line {
+      position: absolute;
+      left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--neon-green), transparent);
+      box-shadow: 0 0 18px var(--neon-green);
+      animation: scanSweep 1.8s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 2;
+    }
+    @keyframes scanSweep {
+      0%   { top: 0%;  opacity: 1; }
+      48%  { top: 97%; opacity: 1; }
+      50%  { top: 97%; opacity: 0; }
+      51%  { top: 0%;  opacity: 0; }
+      52%  { top: 0%;  opacity: 1; }
+      100% { top: 0%;  opacity: 1; }
+    }
+    .cam-corners {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 3;
+    }
+    .cam-corners::before,
+    .cam-corners::after {
+      content: '';
+      position: absolute;
+      width: 28px; height: 28px;
+      border-color: var(--neon-green);
+      border-style: solid;
+    }
+    .cam-corners::before {
+      top: 10px; left: 10px;
+      border-width: 3px 0 0 3px;
+    }
+    .cam-corners::after {
+      bottom: 10px; right: 10px;
+      border-width: 0 3px 3px 0;
+    }
+    .cam-corners-inner {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 3;
+    }
+    .cam-corners-inner::before,
+    .cam-corners-inner::after {
+      content: '';
+      position: absolute;
+      width: 28px; height: 28px;
+      border-color: var(--neon-green);
+      border-style: solid;
+    }
+    .cam-corners-inner::before {
+      top: 10px; right: 10px;
+      border-width: 3px 3px 0 0;
+    }
+    .cam-corners-inner::after {
+      bottom: 10px; left: 10px;
+      border-width: 0 0 3px 3px;
+    }
+    .cam-reticle {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 120px; height: 120px;
+      border: 2px solid rgba(0,255,102,0.6);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 4;
+      animation: reticlePulse 1.6s ease-in-out infinite;
+    }
+    @keyframes reticlePulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(0,255,102,0.4); transform: translate(-50%,-50%) scale(1); }
+      50%       { box-shadow: 0 0 0 12px rgba(0,255,102,0); transform: translate(-50%,-50%) scale(1.07); }
+    }
+    .cam-countdown-num {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Outfit', sans-serif;
+      font-size: 6rem;
+      font-weight: 900;
+      color: #ffffff;
+      text-shadow: 0 0 40px rgba(255,255,255,0.9), 0 0 80px var(--neon-green);
+      z-index: 5;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s ease;
+    }
+    .cam-countdown-num.show {
+      opacity: 1;
+      animation: camCountPop 0.9s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes camCountPop {
+      0%   { transform: translate(-50%,-50%) scale(0.4); opacity: 0; }
+      50%  { transform: translate(-50%,-50%) scale(1.15); opacity: 1; }
+      100% { transform: translate(-50%,-50%) scale(1);   opacity: 1; }
+    }
+    .cam-status-text {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.82rem;
+      color: rgba(0,255,102,0.7);
+      letter-spacing: 2px;
+      text-align: center;
+    }
+    #cam-capture-canvas { display: none; }
+    #cam-flash {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #ffffff;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.06s ease;
+    }
+    #cam-flash.flash-on { opacity: 1; }
+    .cam-denied-msg {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .cam-denied-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--alert-red);
+      letter-spacing: 3px;
+    }
+    .cam-denied-sub {
+      font-size: 0.95rem;
+      color: rgba(0,255,102,0.7);
+      letter-spacing: 1px;
+    }
+    .webcam-polaroid-wrap {
+      display: flex;
+      justify-content: center;
+      grid-column: 1 / -1;
+      margin-top: 10px;
+    }
+    .webcam-polaroid {
+      background: #ffffff;
+      padding: 14px 14px 50px;
+      border-radius: 4px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.55);
+      transform: rotate(-2deg);
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      cursor: pointer;
+      max-width: 260px;
+      width: 100%;
+      position: relative;
+    }
+    .webcam-polaroid:hover {
+      transform: rotate(0deg) scale(1.06);
+      box-shadow: 0 24px 55px rgba(255,64,129,0.45);
+    }
+    .webcam-polaroid img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border-radius: 2px;
+      display: block;
+    }
+    .webcam-polaroid-cap {
+      position: absolute;
+      bottom: 10px;
+      left: 0; right: 0;
+      text-align: center;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.45rem;
+      color: #222;
+    }
+    .evidence-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .evidence-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--alert-red);
+      box-shadow: 0 12px 35px rgba(255,51,68,0.3);
+    }
+    .evidence-icon { font-size: 2.6rem; }
+    .evidence-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--alert-red);
+    }
+    .evidence-desc {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.65);
+    }
+    #webcam-capture-section { display: none; }
+
+    /* ==========================================================================
        RESPONSIVE TWEAKS
        ========================================================================== */
     @media (max-width: 768px) {
@@ -1059,6 +1312,34 @@
 
   <!-- Matrix Background Canvas -->
   <canvas id="matrix-canvas" aria-hidden="true"></canvas>
+
+  <!-- =====================================================================
+       CAMERA MODULE MODAL
+       ===================================================================== -->
+  <div id="camera-modal" role="dialog" aria-modal="true" aria-label="Camera identity scan">
+    <div id="cam-scanner-content">
+      <div class="cam-header">&#x1F4E1; Initializing Camera Module...</div>
+      <div class="cam-scanner-wrap">
+        <video id="cam-video" autoplay playsinline muted aria-label="Live camera feed"></video>
+        <div class="cam-scan-line" aria-hidden="true"></div>
+        <div class="cam-corners" aria-hidden="true"></div>
+        <div class="cam-corners-inner" aria-hidden="true"></div>
+        <div class="cam-reticle" aria-hidden="true"></div>
+        <div class="cam-countdown-num" id="cam-count-num" aria-live="assertive"></div>
+      </div>
+      <div class="cam-status-text" id="cam-status-text">TARGET LOCK INITIALIZING...</div>
+    </div>
+    <div class="cam-denied-msg" id="cam-denied-msg" style="display:none;" aria-live="assertive">
+      <div class="cam-denied-title">&#x26D4; Camera Access Denied</div>
+      <div class="cam-denied-sub">Continuing Birthday Simulation...</div>
+    </div>
+  </div>
+
+  <!-- White flash overlay for shutter effect -->
+  <div id="cam-flash" aria-hidden="true"></div>
+
+  <!-- Hidden canvas for frame capture -->
+  <canvas id="cam-capture-canvas" aria-hidden="true"></canvas>
 
   <!-- =====================================================================
        PHASE 1: BOOT SEQUENCE SCREEN
@@ -1204,10 +1485,11 @@
       </div>
 
       <div class="vault-tabs" role="tablist">
-        <button class="v-tab-btn active" id="tab-memories" role="tab" aria-selected="true"  aria-controls="v-memories" onclick="switchVaultTab('v-memories', this)">📸 Memories</button>
-        <button class="v-tab-btn"        id="tab-cake"     role="tab" aria-selected="false" aria-controls="v-cake"     onclick="switchVaultTab('v-cake', this)">🎂 Blow Candles</button>
-        <button class="v-tab-btn"        id="tab-letter"   role="tab" aria-selected="false" aria-controls="v-letter"   onclick="switchVaultTab('v-letter', this)">💌 Secret Letter</button>
-        <button class="v-tab-btn"        id="tab-awards"   role="tab" aria-selected="false" aria-controls="v-awards"   onclick="switchVaultTab('v-awards', this)">🏆 Achievements</button>
+        <button class="v-tab-btn active" id="tab-memories" role="tab" aria-selected="true"  aria-controls="v-memories" onclick="switchVaultTab('v-memories', this)">&#x1F4F8; Memories</button>
+        <button class="v-tab-btn"        id="tab-cake"     role="tab" aria-selected="false" aria-controls="v-cake"     onclick="switchVaultTab('v-cake', this)">&#x1F382; Blow Candles</button>
+        <button class="v-tab-btn"        id="tab-letter"   role="tab" aria-selected="false" aria-controls="v-letter"   onclick="switchVaultTab('v-letter', this)">&#x1F48C; Secret Letter</button>
+        <button class="v-tab-btn"        id="tab-awards"   role="tab" aria-selected="false" aria-controls="v-awards"   onclick="switchVaultTab('v-awards', this)">&#x1F3C6; Achievements</button>
+        <button class="v-tab-btn"        id="tab-capture"  role="tab" aria-selected="false" aria-controls="v-capture"  onclick="switchVaultTab('v-capture', this)" style="display:none;">&#x1F4F8; Live Capture</button>
       </div>
 
       <div class="vault-body">
@@ -1237,7 +1519,23 @@
               <div class="p-img">
                 <img src="images/photo4.jpg" alt="Forever Bestie Sakshi" loading="lazy" decoding="async" width="200" height="160">
               </div>
-              <div class="p-cap">Forever Bestie</div>
+            <div class="p-cap">Forever Bestie</div>
+            </div>
+          </div>
+
+          <!-- Webcam capture section — shown after camera fires -->
+          <div id="webcam-capture-section">
+            <div style="margin-top:28px;text-align:center;font-family:'Outfit',sans-serif;font-size:0.82rem;color:rgba(0,255,102,0.6);letter-spacing:2px;margin-bottom:16px;">&#x1F4E1; FIELD EVIDENCE &mdash; CAPTURED DURING SCAN</div>
+            <div style="display:flex;flex-wrap:wrap;gap:20px;justify-content:center;">
+              <div class="webcam-polaroid" id="webcam-polaroid-card" onclick="openWebcamLightbox()" role="button" tabindex="0" aria-label="View captured birthday queen photo">
+                <img id="webcam-captured-img" src="" alt="Captured Birthday Queen" loading="lazy">
+                <div class="webcam-polaroid-cap">Birthday Queen &#x1F451;</div>
+              </div>
+              <div class="evidence-card" id="evidence-card" onclick="openWebcamLightbox()" role="button" tabindex="0" aria-label="View mission evidence in fullscreen">
+                <div class="evidence-icon">&#x1F575;&#xFE0F;</div>
+                <div class="evidence-name">Mission Evidence</div>
+                <div class="evidence-desc">Tap to view captured file in fullscreen</div>
+              </div>
             </div>
           </div>
         </div>
@@ -1312,6 +1610,11 @@
               <div class="achieve-desc">Infinite bond unlocked forever</div>
             </div>
           </div>
+        </div>
+
+        <!-- Tab 5: Live Capture (hidden until camera fires) -->
+        <div class="v-pane" id="v-capture" role="tabpanel" aria-labelledby="tab-capture">
+          <div style="text-align:center;padding:20px 0;font-family:'Outfit',sans-serif;color:rgba(255,255,255,0.6);font-size:1rem;">Loading capture data...</div>
         </div>
 
       </div>
@@ -1588,7 +1891,10 @@
         } else {
           document.getElementById('identity-box').style.display = 'block';
           playBassThud();
-          setTimeout(runPhase5CLI, 1200);
+          /* Trigger webcam capture during identity verification */
+          initCameraCapture();
+          /* Give camera modal a moment to appear before CLI continues */
+          setTimeout(runPhase5CLI, 1400);
         }
       }
       nextDiag();
@@ -1916,18 +2222,200 @@
     });
 
     /* ==========================================================================
-       CAMERA: HTTPS-ONLY, GRACEFUL FALLBACK
-       (No camera is actually used in this experience, but the API is
-        checked safely — captured frames are never stored or uploaded.)
+       CAMERA MODULE — Real webcam capture with countdown & shutter
+       • Image stored only in memory (CAM.capturedDataURL), never uploaded
+       • Camera tracks stopped immediately after one frame is taken
+       • Works on Chrome, Safari, Edge, Firefox over HTTPS / localhost
+       • Graceful fallback if permission denied or API unavailable
        ========================================================================== */
-    function checkCameraAvailability() {
-      // Only attempt on HTTPS or localhost
-      var isSecure = location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-      if (!isSecure) return; // graceful skip
-      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return; // not supported
-      // Camera is available; feature ready if needed — no-op in current experience
+    var CAM = {
+      stream:          null,
+      capturedDataURL: null
+    };
+
+    function openCameraModal() {
+      document.getElementById('camera-modal').classList.add('cam-visible');
     }
-    checkCameraAvailability();
+
+    function closeCameraModal(showDenied) {
+      var modal       = document.getElementById('camera-modal');
+      var scanContent = document.getElementById('cam-scanner-content');
+      var deniedMsg   = document.getElementById('cam-denied-msg');
+      if (showDenied) {
+        scanContent.style.display = 'none';
+        deniedMsg.style.display   = 'flex';
+        setTimeout(function () {
+          modal.classList.remove('cam-visible');
+          setTimeout(function () {
+            scanContent.style.display = '';
+            deniedMsg.style.display   = 'none';
+          }, 600);
+        }, 2600);
+      } else {
+        modal.classList.remove('cam-visible');
+      }
+    }
+
+    function stopCameraStream() {
+      if (CAM.stream) {
+        CAM.stream.getTracks().forEach(function (t) { t.stop(); });
+        CAM.stream = null;
+      }
+      var vid = document.getElementById('cam-video');
+      if (vid) vid.srcObject = null;
+    }
+
+    /* Synthesized shutter click via Web Audio — no external files needed */
+    function playShutterSound() {
+      if (!AUDIO.ctx) return;
+      try {
+        var now  = AUDIO.ctx.currentTime;
+        var sr   = AUDIO.ctx.sampleRate;
+        var buf  = AUDIO.ctx.createBuffer(1, Math.floor(sr * 0.09), sr);
+        var data = buf.getChannelData(0);
+        for (var i = 0; i < data.length; i++) {
+          data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / data.length, 2.5);
+        }
+        var src  = AUDIO.ctx.createBufferSource();
+        var gain = AUDIO.ctx.createGain();
+        src.buffer = buf;
+        gain.gain.setValueAtTime(0.7, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
+        src.connect(gain);
+        gain.connect(AUDIO.ctx.destination);
+        src.start(now);
+
+        var osc = AUDIO.ctx.createOscillator();
+        var g2  = AUDIO.ctx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(3400, now);
+        osc.frequency.exponentialRampToValueAtTime(900, now + 0.05);
+        g2.gain.setValueAtTime(0.18, now);
+        g2.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+        osc.connect(g2);
+        g2.connect(AUDIO.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.05);
+      } catch(e) {}
+    }
+
+    function captureFrame(videoEl) {
+      var canvas = document.getElementById('cam-capture-canvas');
+      canvas.width  = videoEl.videoWidth  || 640;
+      canvas.height = videoEl.videoHeight || 480;
+      var ctx = canvas.getContext('2d');
+      /* Mirror horizontally so the saved image matches what the user saw */
+      ctx.translate(canvas.width, 0);
+      ctx.scale(-1, 1);
+      ctx.drawImage(videoEl, 0, 0, canvas.width, canvas.height);
+      return canvas.toDataURL('image/jpeg', 0.92);
+    }
+
+    function triggerFlash() {
+      var el = document.getElementById('cam-flash');
+      el.classList.add('flash-on');
+      setTimeout(function () { el.classList.remove('flash-on'); }, 380);
+    }
+
+    function injectCapturedPhoto(dataURL) {
+      CAM.capturedDataURL = dataURL;
+
+      /* ── Memories tab: reveal the webcam row ── */
+      var img = document.getElementById('webcam-captured-img');
+      if (img) img.src = dataURL;
+      var section = document.getElementById('webcam-capture-section');
+      if (section) section.style.display = 'block';
+
+      /* ── Live Capture tab: build and populate ── */
+      var pane = document.getElementById('v-capture');
+      if (pane) {
+        pane.innerHTML =
+          '<div style="display:flex;flex-direction:column;align-items:center;gap:24px;padding:10px 0;">' +
+            '<div style="font-family:\'Outfit\',sans-serif;font-size:0.82rem;color:rgba(0,255,102,0.7);letter-spacing:3px;">' +
+              '&#x1F3AF; IDENTITY SCAN COMPLETE &mdash; SUBJECT IDENTIFIED' +
+            '</div>' +
+            '<div class="webcam-polaroid" onclick="openWebcamLightbox()" role="button" tabindex="0" style="max-width:300px;">' +
+              '<img src="' + dataURL + '" alt="Captured Birthday Queen" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:2px;">' +
+              '<div class="webcam-polaroid-cap">Birthday Queen &#x1F451;</div>' +
+            '</div>' +
+            '<div class="evidence-card" onclick="openWebcamLightbox()" role="button" tabindex="0" style="max-width:300px;">' +
+              '<div class="evidence-icon">&#x1F575;&#xFE0F;</div>' +
+              '<div class="evidence-name">Mission Evidence</div>' +
+              '<div class="evidence-desc">Tap to view captured file in fullscreen</div>' +
+            '</div>' +
+          '</div>';
+      }
+
+      /* Reveal the Live Capture tab button */
+      var tabBtn = document.getElementById('tab-capture');
+      if (tabBtn) tabBtn.style.display = '';
+    }
+
+    function openWebcamLightbox() {
+      if (!CAM.capturedDataURL) return;
+      var lb  = document.getElementById('lightbox');
+      var img = document.getElementById('lightbox-img');
+      img.src = CAM.capturedDataURL;
+      img.style.transform = 'none'; /* no mirror — already baked into the data URL */
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function runCameraCountdownAndCapture(videoEl) {
+      var countEl  = document.getElementById('cam-count-num');
+      var statusEl = document.getElementById('cam-status-text');
+      var count    = 3;
+      statusEl.textContent = 'TARGET ACQUIRED \u2014 HOLD STILL...';
+
+      function tick() {
+        countEl.textContent = count;
+        countEl.classList.remove('show');
+        void countEl.offsetWidth; /* force reflow to restart CSS animation */
+        countEl.classList.add('show');
+        playBassThud();
+
+        if (count > 1) {
+          count--;
+          setTimeout(tick, 1000);
+        } else {
+          setTimeout(function () {
+            countEl.classList.remove('show');
+            statusEl.textContent = '\uD83D\uDCF8 CAPTURING...';
+            playShutterSound();
+            triggerFlash();
+            var dataURL = captureFrame(videoEl);
+            stopCameraStream();       /* camera stops IMMEDIATELY after capture */
+            closeCameraModal(false);
+            injectCapturedPhoto(dataURL);
+          }, 1000);
+        }
+      }
+      setTimeout(tick, 1200); /* brief pause so user sees the scanner first */
+    }
+
+    function initCameraCapture() {
+      var isSecure = location.protocol === 'https:' ||
+                     location.hostname === 'localhost'  ||
+                     location.hostname === '127.0.0.1';
+      if (!isSecure || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return;
+
+      openCameraModal();
+
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false })
+        .then(function (stream) {
+          CAM.stream = stream;
+          var vid = document.getElementById('cam-video');
+          vid.srcObject = stream;
+          vid.onloadedmetadata = function () {
+            vid.play().catch(function(){});
+            runCameraCountdownAndCapture(vid);
+          };
+        })
+        .catch(function (err) {
+          console.warn('Camera access denied or unavailable:', err);
+          closeCameraModal(true); /* show denial message, then auto-dismiss */
+        });
+    }
 
     /* ==========================================================================
        CANVAS RESIZE ON ORIENTATION / WINDOW CHANGE
