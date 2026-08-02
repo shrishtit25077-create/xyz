@@ -1244,37 +1244,277 @@
     #webcam-capture-section { display: none; }
 
     /* ==========================================================================
-       RESPONSIVE TWEAKS
+       RESPONSIVE — MOBILE-FIRST COMPLETE OVERHAUL
+       Breakpoints: 480px · 600px · 768px · 1024px
        ========================================================================== */
+
+    /* ── Fluid global font base ── */
+    html { font-size: clamp(13px, 1.8vw, 16px); }
+
+    /* ── Top controls: shrink on small screens ── */
+    .top-controls {
+      top: 10px;
+      right: 10px;
+      gap: 8px;
+    }
+    .cyber-btn {
+      padding: 7px 13px;
+      font-size: 0.78rem;
+    }
+
+    /* ── Boot screen fluid type ── */
+    .boot-box          { font-size: clamp(0.78rem, 2.5vw, 1.1rem); }
+    .boot-flash-banner { font-size: clamp(1.2rem, 5vw, 2.5rem); letter-spacing: clamp(2px, 1vw, 4px); }
+
+    /* ── Terminal: fluid sizing ── */
+    .apple-terminal { width: 95%; }
+    .terminal-content { padding: clamp(14px, 4vw, 25px); gap: clamp(12px, 3vw, 20px); }
+    .terminal-title-text { font-size: clamp(0.65rem, 2vw, 0.85rem); }
+    .diag-grid { font-size: clamp(0.78rem, 2.2vw, 0.95rem); }
+    .diag-item { padding: clamp(7px, 2vw, 10px) clamp(10px, 2.5vw, 15px); }
+    .identity-header { font-size: clamp(0.85rem, 2.5vw, 1.1rem); }
+    .cli-box { font-size: clamp(0.78rem, 2.2vw, 0.9rem); padding: clamp(10px, 3vw, 12px) clamp(12px, 3vw, 15px); }
+
+    /* ── AI message fluid type ── */
+    .ai-box { font-size: clamp(1rem, 3.5vw, 1.6rem); padding: 0 clamp(10px, 4vw, 0px); }
+
+    /* ── Countdown fluid type ── */
+    .countdown-number { font-size: clamp(5rem, 22vw, 14rem); }
+
+    /* ── Access Granted fluid type ── */
+    .access-title { font-size: clamp(2rem, 8vw, 4rem); letter-spacing: clamp(3px, 2vw, 8px); }
+
+    /* ── Party screen: safe padding ── */
+    #party-screen {
+      padding: clamp(20px, 5vw, 40px) clamp(12px, 4vw, 20px) clamp(40px, 8vw, 80px);
+      padding-bottom: max(clamp(40px, 8vw, 80px), env(safe-area-inset-bottom, 0px));
+    }
+
+    /* ── Hero card fluid sizing ── */
+    .hero-birthday-card {
+      padding: clamp(24px, 6vw, 50px) clamp(18px, 5vw, 35px);
+      border-radius: clamp(16px, 4vw, 28px);
+      margin-bottom: clamp(28px, 6vw, 50px);
+    }
+    .hero-title { font-size: clamp(1.35rem, 5vw, 2.5rem); }
+    .hero-sub   { font-size: clamp(0.95rem, 3vw, 1.25rem); }
+    .hero-name  { font-size: clamp(2.4rem, 9vw, 4.2rem); }
+    .sim-tag    { font-size: clamp(0.72rem, 2vw, 0.9rem); padding: 5px 14px; }
+
+    /* ── Vault fluid sizing ── */
+    .vault-window { border-radius: clamp(14px, 3vw, 24px); margin-bottom: clamp(30px, 7vw, 60px); }
+    .vault-header { padding: clamp(14px, 3.5vw, 22px) clamp(16px, 4vw, 30px); }
+    .vault-title  { font-size: clamp(0.95rem, 3vw, 1.35rem); }
+    .vault-body   { padding: clamp(18px, 4.5vw, 35px); min-height: auto; }
+    .vault-tabs   { padding: 4px 10px; gap: 6px; }
+    .v-tab-btn    {
+      padding: clamp(10px, 2.5vw, 14px) clamp(12px, 3vw, 22px);
+      font-size: clamp(0.8rem, 2.2vw, 1rem);
+    }
+
+    /* ── Polaroid grid fluid ── */
+    .polaroid-grid { grid-template-columns: repeat(auto-fit, minmax(min(160px, 45%), 1fr)); gap: clamp(14px, 3.5vw, 25px); }
+    .p-img         { height: clamp(110px, 25vw, 160px); }
+
+    /* ── Badge grid fluid ── */
+    .badge-grid { grid-template-columns: repeat(auto-fit, minmax(min(180px, 45%), 1fr)); gap: clamp(14px, 3vw, 20px); }
+
+    /* ── Letter card fluid ── */
+    .letter-card  { padding: clamp(20px, 5vw, 35px); font-size: clamp(0.9rem, 2.5vw, 1.15rem); }
+    .letter-title { font-size: clamp(1.6rem, 5vw, 2.4rem); }
+
+    /* ── Cake fluid sizing ── */
+    .cake-visual {
+      width: clamp(140px, 45vw, 220px);
+      height: clamp(95px, 30vw, 150px);
+    }
+    .cake-candles { padding: 0 clamp(20px, 8vw, 35px); }
+
+    /* ── Camera modal fluid ── */
+    .cam-scanner-wrap { width: min(340px, 88vw); }
+    .cam-countdown-num { font-size: clamp(3.5rem, 15vw, 6rem); }
+    .cam-header { font-size: clamp(0.72rem, 2.2vw, 0.9rem); letter-spacing: clamp(2px, 1vw, 4px); }
+    .cam-status-text { font-size: clamp(0.68rem, 2vw, 0.82rem); }
+
+    /* ── Webcam polaroid fluid ── */
+    .webcam-polaroid { max-width: clamp(200px, 70vw, 260px); }
+
+    /* ── Final footer fluid ── */
+    .final-footer { padding: clamp(18px, 4vw, 30px); }
+    .footer-title { font-size: clamp(1.1rem, 4vw, 1.6rem); letter-spacing: clamp(2px, 1vw, 3px); }
+
+    /* ===========================================================
+       ≤ 768px  — Tablets & large phones (landscape)
+       =========================================================== */
     @media (max-width: 768px) {
-      .terminal-top-bar { flex-wrap: wrap; gap: 8px; }
-      .terminal-title-text { font-size: 0.75rem; }
-      .vault-body { padding: 20px; }
-      .polaroid-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
-      .badge-grid { grid-template-columns: 1fr 1fr; }
-      .hero-birthday-card { padding: 35px 20px; }
+      .terminal-top-bar {
+        flex-wrap: wrap;
+        gap: 6px;
+        padding: 10px 14px;
+      }
+      .status-badge { font-size: 0.72rem; padding: 3px 8px; }
+
+      .polaroid-grid  { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+      .badge-grid     { grid-template-columns: repeat(2, 1fr); }
+
+      .hero-birthday-card { padding: 28px 18px; }
+      .hero-name  { font-size: 2.8rem; }
+      .hero-title { font-size: 1.6rem; }
     }
 
+    /* ===========================================================
+       ≤ 600px  — Phones (portrait)
+       =========================================================== */
     @media (max-width: 600px) {
-      .hero-title        { font-size: 1.8rem; }
-      .hero-name         { font-size: 3rem; }
-      .countdown-number  { font-size: 8rem; }
-      .access-title      { font-size: 2.5rem; }
-      .ai-box            { font-size: 1.2rem; }
-      .vault-title       { font-size: 1.1rem; }
-      .v-tab-btn         { padding: 10px 14px; font-size: 0.88rem; }
-      .polaroid-grid     { grid-template-columns: 1fr 1fr; gap: 12px; }
-      .badge-grid        { grid-template-columns: 1fr; }
-      .cake-visual       { width: 160px; height: 110px; }
-      .letter-card       { padding: 22px; font-size: 1rem; }
-      .boot-box          { font-size: 0.95rem; }
-      .boot-flash-banner { font-size: 1.8rem; }
+      /* Sound button: icon only on very small screens */
+      #sound-txt { display: none; }
+      .cyber-btn { padding: 8px 10px; gap: 0; }
+
+      /* Phase screens: tighter padding */
+      .phase-screen { padding: 14px; }
+
+      /* Terminal */
+      .apple-terminal { width: 98%; border-radius: 10px; }
+      .terminal-content { padding: 14px; gap: 12px; }
+      .terminal-top-bar { padding: 9px 12px; }
+      .terminal-title-text { font-size: 0.65rem; letter-spacing: 1px; }
+      .diag-item span:first-child { font-size: 0.75rem; }
+      .identity-header { font-size: 0.85rem; }
+      .identity-row    { font-size: 0.82rem; }
+
+      /* Boot */
+      .boot-box  { font-size: 0.82rem; width: 95%; }
+      .boot-line { font-size: 0.8rem; }
+      .boot-flash-banner { font-size: 1.5rem; margin-top: 16px; }
+
+      /* AI message */
+      .ai-box  { font-size: 1.05rem; line-height: 1.9; }
+      .ai-tag  { font-size: 0.75rem; letter-spacing: 2px; }
+
+      /* Countdown */
+      .countdown-number { font-size: 7.5rem; }
+
+      /* Access granted */
+      .access-title { font-size: 2.2rem; letter-spacing: 4px; }
+
+      /* Party screen */
+      #party-screen { padding: 18px 12px 50px; }
+
+      /* Hero card */
+      .hero-birthday-card { padding: 24px 16px; border-radius: 18px; margin-bottom: 24px; }
+      .hero-title { font-size: 1.4rem; }
+      .hero-sub   { font-size: 0.95rem; }
+      .hero-name  { font-size: 2.6rem; margin: 14px 0 22px; }
+      .sim-tag    { font-size: 0.7rem; }
+
+      /* Vault */
+      .vault-window  { border-radius: 16px; margin-bottom: 28px; }
+      .vault-header  { padding: 14px 16px; }
+      .vault-title   { font-size: 0.95rem; }
+      .vault-tabs    { padding: 4px 8px; gap: 4px; -webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory; }
+      .v-tab-btn     { padding: 10px 13px; font-size: 0.8rem; scroll-snap-align: start; }
+      .vault-body    { padding: 16px; }
+
+      /* Polaroid photos */
+      .polaroid-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .p-img         { height: 115px; }
+      .p-cap         { font-size: 1.1rem; margin-top: 8px; }
+      .polaroid-card { padding: 9px 9px 14px; }
+
+      /* Webcam polaroid */
+      .webcam-polaroid     { max-width: 85vw; padding: 10px 10px 44px; }
+      .webcam-polaroid-cap { font-size: 1.2rem; }
+
+      /* Evidence card */
+      .evidence-card   { max-width: 85vw !important; padding: 16px; }
+      .evidence-icon   { font-size: 2rem; }
+      .evidence-name   { font-size: 0.95rem; }
+      .evidence-desc   { font-size: 0.8rem; }
+
+      /* Achievements */
+      .badge-grid   { grid-template-columns: 1fr; gap: 12px; }
+      .achieve-card { padding: 16px; }
+      .achieve-icon { font-size: 2.2rem; }
+      .achieve-name { font-size: 1rem; }
+      .achieve-desc { font-size: 0.82rem; }
+
+      /* Letter */
+      .letter-card  { padding: 18px; font-size: 0.92rem; line-height: 1.8; }
+      .letter-title { font-size: 1.5rem; }
+
+      /* Cake */
+      .cake-visual   { width: 150px; height: 100px; }
+      .c-candle      { width: 12px; height: 40px; }
+      .c-flame       { width: 12px; height: 18px; top: -16px; }
+      .cake-candles  { top: -56px; }
+      .cake-banner   { font-size: 1.1rem; text-align: center; }
+
+      /* Camera modal */
+      .cam-scanner-wrap  { width: 90vw; }
+      .cam-countdown-num { font-size: 4rem; }
+      #cam-scanner-content { gap: 14px; }
+
+      /* Final footer */
+      .final-footer { padding: 18px 14px; border-radius: 12px; }
+      .footer-title { font-size: 1.1rem; }
     }
 
-    @media (max-width: 380px) {
-      .hero-name         { font-size: 2.4rem; }
-      .countdown-number  { font-size: 6rem; }
-      .polaroid-grid     { grid-template-columns: 1fr; }
+    /* ===========================================================
+       ≤ 400px  — Very small phones (iPhone SE, Galaxy A series)
+       =========================================================== */
+    @media (max-width: 400px) {
+      html { font-size: 13px; }
+
+      .hero-name { font-size: 2.1rem; }
+      .hero-title { font-size: 1.25rem; }
+      .countdown-number { font-size: 5.5rem; }
+      .access-title { font-size: 1.8rem; letter-spacing: 2px; }
+
+      .polaroid-grid { grid-template-columns: 1fr; gap: 14px; }
+      .p-img { height: 180px; }
+
+      .vault-tabs { padding: 3px 6px; gap: 3px; }
+      .v-tab-btn  { padding: 9px 10px; font-size: 0.76rem; }
+
+      .boot-flash-banner { font-size: 1.2rem; letter-spacing: 2px; }
+      .ai-box { font-size: 0.95rem; }
+
+      .cam-countdown-num { font-size: 3.5rem; }
+    }
+
+    /* ===========================================================
+       Landscape phones  — prevent oversized elements
+       =========================================================== */
+    @media (max-height: 500px) and (orientation: landscape) {
+      .countdown-number { font-size: 5rem; }
+      .access-title { font-size: 1.8rem; }
+      .hero-name { font-size: 2.2rem; }
+      .hero-birthday-card { padding: 18px 22px; }
+      #party-screen { padding: 14px 14px 30px; }
+      .cam-scanner-wrap { width: min(260px, 50vw); }
+      .vault-body { min-height: unset; }
+      .phase-screen { padding: 10px 16px; }
+      .boot-box { font-size: 0.8rem; }
+    }
+
+    /* ===========================================================
+       ≥ 1024px  — Ensure desktop layout stays crisp
+       =========================================================== */
+    @media (min-width: 1024px) {
+      html { font-size: 16px; }
+      .top-controls { top: 15px; right: 20px; }
+      .cyber-btn { padding: 8px 16px; font-size: 0.85rem; }
+      #sound-txt { display: inline; }
+      .apple-terminal { width: 92%; }
+      .polaroid-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 25px; }
+      .badge-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+      .vault-body { padding: 35px; }
+      .v-tab-btn  { padding: 14px 22px; font-size: 1rem; }
+      .hero-name  { font-size: 4.2rem; }
+      .hero-title { font-size: 2.5rem; }
+      .countdown-number { font-size: 14rem; }
+      .access-title { font-size: 4rem; }
+      .ai-box { font-size: 1.6rem; }
     }
 
     /* Reduced motion support */
